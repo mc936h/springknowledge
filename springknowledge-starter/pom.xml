@@ -1,0 +1,23 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+
+<modelVersion>4.0.0</modelVersion>
+
+<parent>
+    <groupId>io.springknowledge</groupId>
+    <artifactId>springknowledge</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+</parent>
+
+<artifactId>springknowledge-starter</artifactId>
+
+<dependencies>
+
+    <dependency>
+        <groupId>io.springknowledge</groupId>
+        <artifactId>springknowledge-autoconfigure</artifactId>
+        <version>${project.version}</version>
+    </dependency>
+
+</dependencies>
+
+</project>
