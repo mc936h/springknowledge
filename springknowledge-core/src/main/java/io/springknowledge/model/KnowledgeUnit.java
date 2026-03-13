@@ -29,4 +29,14 @@ public class KnowledgeUnit {
     public String getSection() {
         return section;
     }
+
+    @Override
+    public String toString() {
+        return "KnowledgeUnit{" +
+                "id='" + id + '\'' +
+                ", content='" + content + '\'' +
+                ", source='" + source + '\'' +
+                ", section='" + section + '\'' +
+                '}';
+    }
 }

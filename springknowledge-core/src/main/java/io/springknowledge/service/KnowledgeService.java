@@ -1,5 +1,6 @@
 package io.springknowledge.service;
 
+import io.springknowledge.model.KnowledgeUnit;
 import io.springknowledge.repository.KnowledgeRepository;
 
 import java.util.List;
@@ -12,7 +13,11 @@ public class KnowledgeService {
         this.repository = repository;
     }
 
-    public List<io.springknowledge.model.KnowledgeUnit> search(String question) {
+    public void ingest(KnowledgeUnit unit) {
+        repository.save(unit);
+    }
+
+    public List<KnowledgeUnit> ask(String question) {
         return repository.search(question, 5);
     }
 }
