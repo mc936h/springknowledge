@@ -1,3 +1,4 @@
+io\springknowledge\repository\InMemoryKnowledgeRepository.class
 io\springknowledge\repository\KnowledgeRepository.class
 io\springknowledge\service\KnowledgeService.class
 io\springknowledge\model\KnowledgeUnit.class
