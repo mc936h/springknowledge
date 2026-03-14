@@ -9,8 +9,13 @@
         <module name="springknowledge-core" />
         <module name="springknowledge-autoconfigure" />
         <module name="springknowledge-starter" />
+        <module name="springknowledge-spring-ai" />
         <module name="springknowledge-example" />
+        <module name="springknowledge-spring-ai (2)" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="springknowledge-spring-ai (1)" target="21" />
+    </bytecodeTargetLevel>
   </component>
 </project>

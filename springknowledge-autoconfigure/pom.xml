@@ -1,28 +1,32 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0">
 
-<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-<parent>
-    <groupId>io.springknowledge</groupId>
-    <artifactId>springknowledge</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-</parent>
-
-<artifactId>springknowledge-autoconfigure</artifactId>
-
-<dependencies>
-
-    <dependency>
+    <parent>
         <groupId>io.springknowledge</groupId>
-        <artifactId>springknowledge-core</artifactId>
-        <version>${project.version}</version>
-    </dependency>
+        <artifactId>springknowledge</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
 
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-autoconfigure</artifactId>
-    </dependency>
+    <artifactId>springknowledge-autoconfigure</artifactId>
 
-</dependencies>
+    <dependencies>
+
+        <dependency>
+            <groupId>io.springknowledge</groupId>
+            <artifactId>springknowledge-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springknowledge</groupId>
+            <artifactId>springknowledge-spring-ai</artifactId>
+        </dependency>
+
+    </dependencies>
 
 </project>
