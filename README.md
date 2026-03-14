@@ -1,272 +1,286 @@
 # SpringKnowledge
 
-**SpringKnowledge** is a framework for building **knowledge-powered AI applications in Spring Boot**.
+SpringKnowledge is a lightweight framework for building
+Retrieval-Augmented Generation (RAG) systems in Spring Boot
+applications.
 
-It provides a structured abstraction layer for **Retrieval-Augmented Generation (RAG)** systems, enabling developers to integrate **knowledge retrieval, contextual reasoning, and AI-powered responses** into their applications while leveraging **Spring AI** for model and vector-store infrastructure.
+It provides a structured knowledge architecture that enables developers
+to ingest documents, retrieve relevant information, and generate answers
+using Large Language Models (LLMs).
 
-SpringKnowledge focuses on **knowledge architecture**, not AI infrastructure.
+SpringKnowledge focuses on knowledge infrastructure rather than AI model
+infrastructure.
 
----
+------------------------------------------------------------------------
 
-# Why SpringKnowledge?
+# Overview
 
-Developers building AI-powered services often need to combine multiple components:
+Modern AI applications often need to answer questions based on private
+knowledge such as documentation, internal systems, or domain knowledge.
 
-* Embedding models
-* Vector databases
-* Retrieval pipelines
-* Prompt construction
-* Context assembly
-* Citation tracking
+Retrieval-Augmented Generation (RAG) solves this by:
 
-Even when using Spring AI, developers frequently end up writing repetitive **RAG glue code** across services.
+1.  Ingesting documents\
+2.  Breaking them into chunks\
+3.  Retrieving relevant chunks\
+4.  Sending them to an LLM as context
 
-SpringKnowledge solves this problem by introducing **structured knowledge abstractions** and standardized retrieval pipelines, allowing developers to focus on **knowledge and questions**, rather than infrastructure wiring.
+SpringKnowledge provides a clean, modular implementation of this
+pipeline for Spring Boot applications.
 
----
+------------------------------------------------------------------------
+
+# Features
+
+Current features:
+
+-   Document ingestion\
+-   Markdown knowledge loading\
+-   Document chunking\
+-   Knowledge storage\
+-   Knowledge retrieval\
+-   Context assembly\
+-   LLM answer generation\
+-   Spring Boot starter auto-configuration\
+-   Example RAG application
+
+Currently supported LLM provider:
+
+-   OpenAI via Spring AI
+
+Planned features:
+
+-   Ollama support\
+-   Vector embeddings\
+-   Vector search\
+-   Hybrid retrieval\
+-   Additional document loaders
+
+------------------------------------------------------------------------
 
 # Architecture
 
-SpringKnowledge sits **on top of Spring AI** and complements it.
+SpringKnowledge implements a modular knowledge pipeline.
 
-```
-Application
-     ↓
-SpringKnowledge
-     ↓
-Spring AI
-     ↓
-LLM / Embeddings / Vector Store
-```
+DocumentLoader\
+↓\
+DocumentChunker\
+↓\
+KnowledgeRepository\
+↓\
+KnowledgeRetriever\
+↓\
+ContextAssembler\
+↓\
+KnowledgeAnswerer\
+↓\
+LLM
 
-### Responsibilities
+Each stage of the pipeline is designed to be replaceable and extensible.
 
-**Spring AI**
+------------------------------------------------------------------------
 
-* Model integrations
-* Embedding generation
-* Vector database integration
-* Prompt execution
+# Core Components
 
-**SpringKnowledge**
+**DocumentLoader**\
+Loads documents from sources such as markdown files.
 
-* Knowledge modeling
-* Knowledge ingestion
-* Retrieval orchestration
-* Context construction
-* Citation generation
+**DocumentChunker**\
+Splits documents into smaller chunks suitable for retrieval.
 
----
+**KnowledgeRepository**\
+Stores knowledge units generated during ingestion.
 
-# Core Concepts
+**KnowledgeRetriever**\
+Retrieves relevant knowledge units for a query.
 
-## KnowledgeUnit
+**ContextAssembler**\
+Builds the context sent to the LLM.
 
-A **KnowledgeUnit** represents the smallest meaningful piece of information.
+**KnowledgeAnswerer**\
+Generates answers using an LLM.
 
-Examples include:
+**KnowledgeService**\
+High-level service for ingestion and querying.
 
-* a Quran verse
-* a Bible verse
-* a legal clause
-* a paragraph from documentation
-* an API function description
-* a policy statement
+------------------------------------------------------------------------
 
-Example:
+# Project Structure
 
-```java
-KnowledgeUnit unit = new KnowledgeUnit(
-    "1",
-    "Patience is praised as a virtue.",
-    "ExampleDoc",
-    "Section 1"
-);
-```
+springknowledge\
+├── springknowledge-core\
+├── springknowledge-spring-ai\
+├── springknowledge-autoconfigure\
+├── springknowledge-starter\
+└── springknowledge-example
 
----
+------------------------------------------------------------------------
 
-## KnowledgeRepository
+## springknowledge-core
 
-The **KnowledgeRepository** is responsible for storing and retrieving knowledge.
+Contains the core framework abstractions including:
 
-It abstracts the underlying vector database or storage mechanism.
+-   KnowledgeUnit\
+-   KnowledgeRepository\
+-   KnowledgeRetriever\
+-   ContextAssembler\
+-   KnowledgeService\
+-   Document loading utilities\
+-   Chunking logic
 
-Example usage:
+This module has no AI provider dependencies.
 
-```java
-List<KnowledgeUnit> results =
-        repository.search("What does the document say about patience?", 5);
-```
+------------------------------------------------------------------------
 
-Possible implementations may use:
+## springknowledge-spring-ai
 
-* Qdrant
-* Pinecone
-* PostgreSQL + pgvector
-* Elasticsearch
-* in-memory embeddings
+Integration with Spring AI.
 
----
+Provides:
 
-## KnowledgeService
+-   LLM communication\
+-   ChatClient usage\
+-   OpenAI integration
 
-The **KnowledgeService** provides the main API for applications.
+------------------------------------------------------------------------
 
-Example usage:
+## springknowledge-autoconfigure
 
-```java
-KnowledgeAnswer answer =
-        knowledgeService.ask("What is patience?");
-```
+Spring Boot auto configuration.
 
-Internally, SpringKnowledge handles:
+This module provides automatic bean configuration when the starter
+dependency is included.
 
-* retrieval
-* prompt construction
-* context assembly
-* LLM invocation
-* source citation tracking
+------------------------------------------------------------------------
 
----
+## springknowledge-starter
+
+Convenience dependency that includes:
+
+-   Core framework\
+-   Spring AI integration\
+-   Auto configuration
+
+This is the dependency applications should use.
+
+------------------------------------------------------------------------
+
+## springknowledge-example
+
+Example Spring Boot application demonstrating:
+
+-   Document ingestion\
+-   Knowledge chunking\
+-   Question answering\
+-   End-to-end RAG pipeline execution
+
+------------------------------------------------------------------------
+
+# Getting Started
+
+## 1. Clone the repository
+
+git clone https://github.com/mc936h/springknowledge.git\
+cd springknowledge
+
+------------------------------------------------------------------------
+
+## 2. Build the project
+
+mvn clean install
+
+------------------------------------------------------------------------
+
+## 3. Configure OpenAI
+
+Add your OpenAI API key to application.yml
+
+spring: ai: openai: api-key: YOUR_API_KEY
+
+------------------------------------------------------------------------
+
+## 4. Run the example application
+
+cd springknowledge-example\
+mvn spring-boot:run
+
+------------------------------------------------------------------------
+
+# Example Output
+
+=== SpringKnowledge RAG Test Starting ===
+
+Ingested 29 chunks from markdown\
+README.md loaded and ingested.
+
+Question: SpringKnowledge?
+
+=== AI Answer ===\
+SpringKnowledge is a platform that focuses on knowledge architecture
+rather than AI infrastructure.
+
+=== SpringKnowledge RAG Test Finished ===
+
+------------------------------------------------------------------------
 
 # Example Usage
 
-Example Spring Boot controller:
+Example usage inside a Spring Boot application:
 
-```java
-@RestController
-class KnowledgeController {
+knowledgeService.ingest(unit);
 
-    private final KnowledgeService knowledgeService;
+List`<KnowledgeUnit>`{=html} results =
+knowledgeService.search("SpringKnowledge", 5);
 
-    public KnowledgeController(KnowledgeService knowledgeService) {
-        this.knowledgeService = knowledgeService;
-    }
+String answer = knowledgeService.ask("What is SpringKnowledge?");
 
-    @PostMapping("/ask")
-    public KnowledgeAnswer ask(@RequestBody String question) {
-        return knowledgeService.ask(question);
-    }
-}
-```
+------------------------------------------------------------------------
 
-SpringKnowledge manages the retrieval pipeline automatically.
+# Current Limitations
 
----
+SpringKnowledge currently implements a naïve RAG architecture.
 
-# Project Modules
+Limitations include:
 
-```
-springknowledge
-│
-├── springknowledge-core
-│   Core domain models and framework abstractions
-│
-├── springknowledge-autoconfigure
-│   Spring Boot auto-configuration
-│
-├── springknowledge-starter
-│   Starter dependency for applications
-│
-└── springknowledge-example
-    Example Spring Boot application
-```
+-   Keyword-based retrieval\
+-   No vector embeddings\
+-   No vector search\
+-   OpenAI-only LLM support
 
----
+These limitations will be addressed in future releases.
 
-# Design Principles
-
-SpringKnowledge follows several architectural principles:
-
-### Knowledge-first design
-
-Applications operate on **knowledge units**, not raw documents.
-
-### Separation of concerns
-
-AI infrastructure remains the responsibility of Spring AI.
-
-### Spring-native developer experience
-
-SpringKnowledge integrates naturally with:
-
-* Spring Boot
-* dependency injection
-* auto-configuration
-* starter dependencies
-
-### Extensibility
-
-Developers can extend the framework by adding:
-
-* new knowledge sources
-* custom retrieval strategies
-* custom vector stores
-* custom prompt templates
-
----
-
-# Getting Started (Planned)
-
-SpringKnowledge will provide a starter dependency:
-
-```xml
-<dependency>
-  <groupId>io.springknowledge</groupId>
-  <artifactId>springknowledge-starter</artifactId>
-</dependency>
-```
-
-After adding the dependency, developers will be able to:
-
-1. ingest knowledge
-2. query knowledge
-3. receive grounded AI answers with citations
-
----
+------------------------------------------------------------------------
 
 # Roadmap
 
-Planned features include:
+Planned improvements include:
 
-* Knowledge ingestion pipelines
-* Source citation generation
-* Multi-source knowledge engines
-* Retrieval strategy plugins
-* Structured prompt templates
-* Support for multiple vector stores
-* Integration with Spring AI agents
+-   Embedding-based retrieval\
+-   Vector database integration\
+-   Ollama local model support\
+-   Hybrid retrieval\
+-   Query rewriting\
+-   Reranking\
+-   Additional document loaders
 
----
+------------------------------------------------------------------------
 
-# Project Status
+# Philosophy
 
-SpringKnowledge is currently in **early development**.
+SpringKnowledge separates knowledge architecture from model
+infrastructure.
 
-The project is actively evolving and contributions are welcome.
+The framework focuses on:
 
----
+-   clean modular design\
+-   Spring-native integration\
+-   extensible knowledge pipelines
 
-# Contributing
+This allows developers to build AI-powered services using familiar
+Spring Boot patterns.
 
-Contributions are welcome.
-
-Please open issues or pull requests to:
-
-* report bugs
-* propose features
-* improve documentation
-* extend integrations
-
----
+------------------------------------------------------------------------
 
 # License
 
-This project is licensed under the **Apache License 2.0**.
-
----
-
-# Vision
-
-SpringKnowledge aims to provide a **structured, extensible framework for knowledge-driven AI systems in the Spring ecosystem**, enabling developers to build intelligent applications powered by structured knowledge retrieval and reasoning.
+MIT License
