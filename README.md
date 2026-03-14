@@ -1,3 +1,7 @@
+![Java](https://img.shields.io/badge/Java-21-blue)
+![Spring Boot](https://img.shields.io/badge/SpringBoot-3.3-green)
+![License](https://img.shields.io/badge/license-MIT-yellow)
+
 # SpringKnowledge
 
 SpringKnowledge is a lightweight framework for building
